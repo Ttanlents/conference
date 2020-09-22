@@ -1,0 +1,24 @@
+1 搭建maven并测试成功
+    (1).新建maven项目，勾选webapp
+    (2).对maven仓库进行设置，等待pox文件刷新，导入坐标依赖
+    (3).点击project struct 对项目总体进行module和artifact进行配置，配置tomcat
+2 导入表
+    (1).在nacvicat中执行sql文本
+3 DbUtil,
+    (1).配置数据源
+    (2).使用阿里连接池
+4 生成实体类User
+    (1).使用idea连接数据库，生成实体类
+5 反射
+    (1).利用BaseServlet接收子类的http请求，
+    (2).利用反射this.getclass以及截取请求路径，反射到子类对象的方法
+6 引入taglib
+    (1).让taglib.jsp导入项目需要的静态依赖文件，作用于html文件夹下的jsp文件
+7 jdbcTemplate
+    (1).使用spring中的jdbctemplate,主要是query()和queryObject()方法
+    (2).将数据源作为实参带入new Template,template作为常量
+8 动态菜单栏
+    （1）.利用ajax获取菜单数据，动态渲染到菜单栏中
+9 改进优化
+    （1）.由于父菜单和子菜单，在前端取出，循环字数过多，为笛卡尔积
+     （2）.利用后端返回的json数据，使用map,分别存储父菜单和子菜单
