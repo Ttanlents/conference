@@ -22,21 +22,10 @@ import java.util.stream.Collectors;
  */
 @WebServlet("/menu/*")
 public class MenuServlet  extends BaseServlet{
-    MenuDao menuDao=new MenuService();
+    MenuService menuService=new MenuService();
 
     public void getMenu(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        List<Menu> list = menuDao.getMenuAll();
-        List<Menu> parent = list.stream().filter((n) -> {
-            return n.getType().equals("1");
-        }).collect(Collectors.toList());
-
-        List<Menu> son=list.stream().filter((n)->{
-            return n.getType().equals("2");
-        }).collect(Collectors.toList());
-
-        Map<String,List<Menu>> map=new HashMap<>();
-        map.put("parent",parent);
-        map.put("son",son);
+        Map<String, List<Menu>> map = menuService.getMenuMap();
         JsonUtils.responseJSON(resp,map);
     }
 }

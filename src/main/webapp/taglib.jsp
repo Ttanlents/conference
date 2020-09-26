@@ -4,7 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <c:set value="${pageContext.request.contextPath}" var="path"></c:set>
 
-<%--<link rel="stylesheet" href="${path}/static/bootstrap/css/bootstrap.css">
+<link rel="stylesheet" href="${path}/static/bootstrap/css/bootstrap.css">
 <link rel="stylesheet" href="${path}/static/bootstrap/css/bootstrap-switch.min.css">
 <link rel="stylesheet" href="${path}/static/bootstrap/css/bootstrap-select.min.css">
 <link rel="stylesheet" href="${path}/static/bootstrap/css/bootstrap-datepicker.min.css">
@@ -16,5 +16,5 @@
 <script src="${path}/static/bootstrap/js/bootstrap-switch.min.js"></script>
 <script src="${path}/static/bootstrap/js/bootstrap-datepicker.min.js"></script>
 <script src="${path}/static/bootstrap/js/bootstrap-datetimepicker.min.js"></script>
-<script src="${path}/static/bootstrap/js/bootstrap-collapse.js"></script>--%>
+<script src="${path}/static/bootstrap/js/bootstrap-collapse.js"></script>
 <script src="${path}/js/jquery-3.4.1.js"></script>

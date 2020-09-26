@@ -18,30 +18,31 @@
 
 </body>
     <script>
-        window.onload=function (ev) {
-            $.ajax({
-                url:'${path}/menu/getMenu',
-                type:'post',
-                data:'',
-                dataType:'json',
-              success:function (data) {
-                  var parent=data.parent;
-                  var son=data.son;
-                  console.log(parent)
-                  console.log(son)
-                  var html="";
-                  for (var i = 0; i <parent.length ; i++) {
-                      html+=parent[i].name+'<ul>'
-                      for (var j = 0; j <son.length ; j++) {
-                         if ((parent[i].id+'') == (son[j].parentId+'')){
-                              html+="<li><a href='"+son[j].url+"'>"+son[j].name+"</a> </li>"
-                         }
-                      }
-                      html+="</ul>";
-                  }
-                  $('#menu').append(html);
-              }
-            });
-        }
+       $(function () {
+           $.ajax({
+               url:'${path}/menu/getMenu',
+               type:'post',
+               data:'',
+               dataType:'json',
+               async:true,
+               success:function (data) {
+                   var parent=data.parent;
+                   var son=data.son;
+                   console.log(parent)
+                   console.log(son)
+                   var html="";
+                   for (var i = 0; i <parent.length ; i++) {
+                       html+=parent[i].name+'<ul>'
+                       for (var j = 0; j <son.length ; j++) {
+                           if ((parent[i].id+'') == (son[j].parentId+'')){
+                               html+="<li><a href='"+son[j].url+"'>"+son[j].name+"</a> </li>"
+                           }
+                       }
+                       html+="</ul>";
+                   }
+                   $('#menu').append(html);
+               }
+           });
+       });
     </script>
 </html>

@@ -8,7 +8,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
  * @date 2020/9/22 17:40
  * @Description
  */
-public interface BaseDao {
+public class BaseDao {
 
    JdbcTemplate jdbcTemplate=new JdbcTemplate(DbUtil.getDataSource());
 }

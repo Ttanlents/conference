@@ -1,5 +1,6 @@
 package com.yjf.entity;
 
+import java.util.Arrays;
 import java.util.Objects;
 
 /**
@@ -60,6 +61,12 @@ public class Meeting extends BaseEntity {
      * 抄送人id，以逗号分隔
      */
   private String makeUser;
+
+    /**
+     *会议抄送人
+     * 抄送人id  存储多个id
+     */
+  private String[] makeUsers;
 
 
     public Integer getId() {
@@ -142,6 +149,14 @@ public class Meeting extends BaseEntity {
         this.makeUser = makeUser;
     }
 
+    public String[] getMakeUsers() {
+        return makeUsers;
+    }
+
+    public void setMakeUsers(String[] makeUsers) {
+        this.makeUsers = makeUsers;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -156,12 +171,15 @@ public class Meeting extends BaseEntity {
                 Objects.equals(startTime, meeting.startTime) &&
                 Objects.equals(endTime, meeting.endTime) &&
                 Objects.equals(status, meeting.status) &&
-                Objects.equals(makeUser, meeting.makeUser);
+                Objects.equals(makeUser, meeting.makeUser) &&
+                Arrays.equals(makeUsers, meeting.makeUsers);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, deptName, deptId, title, content, publishDate, startTime, endTime, status, makeUser);
+        int result = Objects.hash(id, deptName, deptId, title, content, publishDate, startTime, endTime, status, makeUser);
+        result = 31 * result + Arrays.hashCode(makeUsers);
+        return result;
     }
 
     @Override
@@ -177,6 +195,7 @@ public class Meeting extends BaseEntity {
                 ", endTime='" + endTime + '\'' +
                 ", status=" + status +
                 ", makeUser='" + makeUser + '\'' +
+                ", makeUsers=" + Arrays.toString(makeUsers) +
                 '}';
     }
 }

@@ -26,7 +26,7 @@ public class JsonUtils {
      *@params data
      *@return java.lang.String
      */
-    public static String StringToJson(Object data) {
+    public static String pojoToJson(Object data) {
     	try {
 			String string = MAPPER.writeValueAsString(data);
 			return string;
@@ -85,7 +85,7 @@ public class JsonUtils {
     */
     public static void responseJSON(HttpServletResponse response, Object object) throws IOException {
         response.setContentType("application/json;charset=utf-8");
-        response.setCharacterEncoding("UTF-8");
+       // response.setCharacterEncoding("UTF-8");
         ObjectMapper mapper = new ObjectMapper();
         String jsonStr = mapper.writeValueAsString(object);    //object对象转为 josn 字符串
         OutputStream out = response.getOutputStream();

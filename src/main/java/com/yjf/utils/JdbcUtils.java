@@ -27,7 +27,7 @@ public class JdbcUtils {
         FileInputStream fis=null;
         try {
             //JDBCUtil.class.getClassLoader().getResourceAsStream("db.properties")
-          //  System.out.println(JdbcUtils.class.getResource("/").getPath() + "jdbc.properties");
+        /* String sss=JdbcUtils.class.getResource("/").getPath() + "jdbc.properties";*/
              fis = new FileInputStream(JdbcUtils.class.getResource("/").getPath() + "/db.properties");
             properties.load(fis);
             DRIVER = properties.getProperty("driver");

@@ -10,7 +10,7 @@ import java.util.List;
  * @date 2020/9/22 17:34
  * @Description
  */
-public interface MenuDao extends BaseDao {
+public class MenuDao extends BaseDao {
 
     /**
      *@Description TODO
@@ -19,7 +19,11 @@ public interface MenuDao extends BaseDao {
      *@params
      *@return java.util.List<com.yjf.entity.Menu>
      */
-    List<Menu> getMenuAll();
+   public List<Menu> getMenuAll(){
+        String sql="select * from menu";
+        List<Menu> list = jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Menu.class));
+        return list;
+    }
 
 
 }

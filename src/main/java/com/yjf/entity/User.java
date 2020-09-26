@@ -89,7 +89,7 @@ public class User extends BaseEntity {
     private String isSecret;
 
     /**
-     *部门名称
+     *部门名称(这个字段忽略它)
      */
     private String deptName;
 
