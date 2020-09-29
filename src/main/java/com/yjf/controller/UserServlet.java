@@ -6,8 +6,7 @@ import com.yjf.entity.Page;
 import com.yjf.entity.User;
 import com.yjf.services.DeptService;
 import com.yjf.services.UserService;
-import com.yjf.utils.JsonUtils;
-import com.yjf.utils.VerifyCode;
+import com.yjf.utils.*;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -52,6 +51,9 @@ public class UserServlet extends BaseServlet {
         int count = userService.getCount(username);
         Page<User> page = new Page<>(Integer.parseInt(pageCurrent), 5, count);
         List<User> userList = userService.getUserList(username, page);
+        for (User user : userList) {
+           user.setRegisterTime(timeUtil.dateTimetoStr(user.getRegisterTime()));
+        }
         req.setAttribute("userList", userList);
         req.setAttribute("username", username);
         req.setAttribute("page", page);
@@ -67,7 +69,10 @@ public class UserServlet extends BaseServlet {
      * @params req
      */
     public void checkName(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        String username = req.getParameter("username");
+        String username = req.getParameter("name");
+        if (username==null){
+            username="";
+        }
         User user = userService.checkName(username);
         if (user != null) {
             JsonUtils.responseJSON(res, 1);
@@ -95,7 +100,7 @@ public class UserServlet extends BaseServlet {
     /**
      * @param res
      * @return void
-     * @Description id修改用户
+     * @Description TODO:回显用户修改页面
      * @author 余俊锋
      * @date 2020/9/23 14:42
      * @params req
@@ -103,23 +108,29 @@ public class UserServlet extends BaseServlet {
     public void updateUser(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         String id = req.getParameter("id");
         User user = userService.getUserByid(Integer.parseInt(id));
-        DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd HH:mm");
-        try {
+
+
             if (user.getRegisterTime() != null && !user.getRegisterTime().equals("")) {
-                Date date = dateFormat.parse(user.getRegisterTime());
-                String dateTime = dateFormat.format(date).replace(" ", "T");
-                user.setRegisterTime(dateTime);
+              String getTime=user.getRegisterTime();
+              getTime=getTime.replace(" ","T");
+               user.setRegisterTime(getTime);
+                System.out.println(getTime);
             }
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+
         req.setAttribute("user", user);
         List<Dept> deptList = deptService.getDeptList();
         req.setAttribute("deptList", deptList);
         req.getRequestDispatcher("/html/user/update.jsp").forward(req, res);
     }
 
-
+    /**
+     * @param res
+     * @return void
+     * @Description 修改完成，回到用户列表
+     * @author 余俊锋
+     * @date 2020/9/27 9:32
+     * @params req
+     */
     public void updateUser2(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         Map<String, String[]> map = req.getParameterMap();
         User user = new User();
@@ -132,40 +143,80 @@ public class UserServlet extends BaseServlet {
         res.sendRedirect("/user/list");
     }
 
-
+    /**
+     * @param res
+     * @return void
+     * @Description TODO:添加一个用户
+     * @author 余俊锋
+     * @date 2020/9/27 9:33
+     * @params req
+     */
     public void addUser(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         User user = new User();
-        String username = req.getParameter("username");
-        String realName = req.getParameter("realName");
-        String email = req.getParameter("email");
-        String gender = req.getParameter("gender");
-        String age = req.getParameter("age");
-        String registerTime = req.getParameter("registerTime");
-        String deptId = req.getParameter("deptId");
-        System.out.println(user);
         Map<String, List<String>> map = upload(req);
         try {
-            BeanUtils.populate(user,map);
-            String name=user.getUsername();
-            String name1=URLDecoder.decode(name,"utf-8");
-            System.out.println(URLDecoder.decode(name,"utf-8"));
+            BeanUtils.populate(user, map);
+            String name = user.getUsername();
+            System.out.println(URLDecoder.decode(name, "utf-8"));
             System.out.println(user);
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
             e.printStackTrace();
         }
+        DateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        user.setRegisterTime(dateFormat.format(new Date()));
+        user.setWxOpenid(null);
         int i = userService.addUser(user);
         res.sendRedirect("/user/list");
     }
+    public void register(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+        User user = new User();
+        String password = req.getParameter("password");
+        Map<String, List<String>> map = upload(req);
+        try {
+            BeanUtils.populate(user, map);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        DateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        user.setRegisterTime(dateFormat.format(new Date()));
+        user.setWxOpenid(null);
+        user.setPassword(MdUtil.md5(user.getPassword()));
+        int i = userService.registerUser(user);
+        res.sendRedirect("/index.jsp");
+    }
 
+    /**
+     * @param res
+     * @return void
+     * @Description TODO:去用户修改页面，回显部门数据
+     * @author 余俊锋
+     * @date 2020/9/27 9:33
+     * @params req
+     */
     public void addUser1(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         List<Dept> deptList = deptService.getDeptList();
         req.setAttribute("deptList", deptList);
         req.getRequestDispatcher("/html/user/add.jsp").forward(req, res);
 
     }
+    public void registerUser(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+        List<Dept> deptList = deptService.getDeptList();
+        req.setAttribute("deptList", deptList);
+        req.getRequestDispatcher("/html/user/register.jsp").forward(req, res);
 
+    }
+
+    /**
+     * @return java.util.Map<java.lang.String   ,   java.util.List   <   java.lang.String>>
+     * @Description TODO:接收所有form表单中的数据以及文件，文件存存储到服务器img目录下 。 是一个公共方法
+     * @author 余俊锋
+     * @date 2020/9/27 9:35
+     * @params request
+     */
     public Map<String, List<String>> upload(HttpServletRequest request) throws UnsupportedEncodingException {
         String pic = "";
         Map<String, List<String>> map = new HashMap<>();
@@ -198,7 +249,7 @@ public class UserServlet extends BaseServlet {
                 } else {
                     ArrayList<String> list = new ArrayList<>();
                     String key = item.getFieldName();
-                    String value = new String(item.getString().getBytes("ISO8859-1"),"utf-8");
+                    String value = new String(item.getString().getBytes("ISO8859-1"), "utf-8");
                     if (map.containsKey(key)) {
                         map.get(key).add(value);
                         continue;
@@ -208,7 +259,7 @@ public class UserServlet extends BaseServlet {
                 }
                 ArrayList<String> list = new ArrayList<>();
                 list.add(pic);
-                map.put("pic",list);
+                map.put("pic", list);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -216,6 +267,14 @@ public class UserServlet extends BaseServlet {
         return map;
     }
 
+    /**
+     * @param response
+     * @return void
+     * @Description TODO:修改头像
+     * @author 余俊锋
+     * @date 2020/9/27 9:37
+     * @params request
+     */
     public void updatePic(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //为解析类提供配置信息 创建文件上传工厂类
         DiskFileItemFactory factory = new DiskFileItemFactory();
@@ -252,6 +311,7 @@ public class UserServlet extends BaseServlet {
                             System.out.println("修改pic成功");
                             map.put("msg", pic);
                         } else {
+                            System.out.println("修改失败");
                             map.put("msg", "修改失败！");
                         }
 
@@ -264,6 +324,14 @@ public class UserServlet extends BaseServlet {
         }
     }
 
+    /**
+     * @param response
+     * @return void
+     * @Description TODO:显示头像
+     * @author 余俊锋
+     * @date 2020/9/27 9:38
+     * @params request
+     */
     public void getHeaderPic(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String pic = request.getParameter("pic");
         String path = this.getClass().getResource("/").getPath() + pic;
@@ -281,6 +349,14 @@ public class UserServlet extends BaseServlet {
         bis.close();
     }
 
+    /**
+     * @param response
+     * @return void
+     * @Description TODO:显示验证码图片
+     * @author 余俊锋
+     * @date 2020/9/27 9:38
+     * @params request
+     */
     public void getVerifyCode(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         VerifyCode verifyCode = new VerifyCode();
         BufferedImage image = verifyCode.getImage();
@@ -295,8 +371,37 @@ public class UserServlet extends BaseServlet {
         ImageIO.write(image, "jpeg", sos);
         sos.flush();
         sos.close();
+    }
+
+    public void sendEmailCode(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+       Map<String,String> map=new HashMap<>();
+        String email = request.getParameter("email");
+        int code=(new Random().nextInt(1)+1)*1000;
+        EmailUtil.sendEmail(email,String.valueOf(code));
+        map.put("code","200");
+        baseSession.setAttribute(Constans.SESSION_EMAIL,String.valueOf(code));
+        JsonUtils.responseJSON(response, map);
 
     }
+    public void updatePassword(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        System.out.println("updatePassword");
+        String username = request.getParameter("username");
+        String newPassword = request.getParameter("newPassword");
+        String emailCode = request.getParameter("emailCode");
+        Object o = baseSession.getAttribute(Constans.SESSION_EMAIL);
+        if (o==null||!Objects.equals(o.toString(),emailCode)){
+            request.getRequestDispatcher("/html/user/forget.jsp").forward(request,response);
+            return;
+        }
+        baseSession.setAttribute(Constans.SESSION_LOGOUT, true);
+        String cipherText= MdUtil.md5(newPassword);
+        userService.updateUserPasswordByUsername(username,cipherText);
+        response.sendRedirect("/index.jsp");
+    }
+
+
+
+
 
 
 }

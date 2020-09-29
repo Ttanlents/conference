@@ -24,6 +24,15 @@ import java.util.stream.Collectors;
 public class MenuServlet  extends BaseServlet{
     MenuService menuService=new MenuService();
 
+
+    /**
+     *@Description TODO:菜单栏
+     *@author 余俊锋
+     *@date 2020/9/27 9:31
+     *@params req
+     * @param resp
+     *@return void
+     */
     public void getMenu(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Map<String, List<Menu>> map = menuService.getMenuMap();
         JsonUtils.responseJSON(resp,map);

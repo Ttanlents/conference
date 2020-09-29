@@ -18,12 +18,9 @@
         应到：${map.should}人<br/><br/>
         实到：${map.actually}人<br/><br/>
         未到：${map.notJoin}人<br/><br/>
-        发布时间：<fmt:parseDate var="publishDate" value="${meet.publishDate}" pattern="YYYY-MM-dd HH:mm:ss"></fmt:parseDate>
-        <fmt:formatDate value="${publishDate}" pattern="YYYY年MM月dd日 HH时mm分ss"></fmt:formatDate><br/><br/>
-        开始时间：<fmt:parseDate var="startTime" value="${meet.startTime}" pattern="YYYY-MM-dd HH:mm:ss"></fmt:parseDate>
-        <fmt:formatDate value="${startTime}" pattern="YYYY年MM月dd日 HH时mm分ss"></fmt:formatDate><br/><br/>
-        结束时间：<fmt:parseDate var="endTime" value="${meet.endTime}" pattern="YYYY-MM-dd HH:mm:ss"></fmt:parseDate>
-        <fmt:formatDate value="${endTime}" pattern="YYYY年MM月dd日 HH时mm分ss"></fmt:formatDate><br/><br/>
+        发布时间：${meet.publishDate}<br/><br/>
+        开始时间：${meet.startTime}<br/><br/>
+        结束时间：${meet.endTime}<br/><br/>
         会议内容：${meet.content}<br/><br/>
         <c:if test="${map.flag!=1}">
             <c:if test="${map.flag==2}">

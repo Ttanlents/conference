@@ -20,7 +20,10 @@ public class LoginFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         String requestPath = request.getRequestURI();
-        if (requestPath.endsWith("/getVerifyCode")){
+        if (requestPath.endsWith("/getVerifyCode")||requestPath.endsWith("/forget.jsp")
+                ||requestPath.endsWith("/sendEmailCode")||requestPath.endsWith("/updatePassword")
+                ||requestPath.contains("/js")||requestPath.contains("/static")||requestPath.contains("weChat")
+                ||requestPath.contains("registerUser")||requestPath.contains("register")||requestPath.contains("checkName")){
             filterChain.doFilter(servletRequest,servletResponse);
             return;
         }

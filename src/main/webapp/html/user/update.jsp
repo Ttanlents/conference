@@ -25,7 +25,7 @@
 
     </select>
       <br/><br/>
-      <input type="submit" value="修改"/>
+      <input type="submit" value="修改" class="btn btn-success"/>
     </form>
   </div>
 

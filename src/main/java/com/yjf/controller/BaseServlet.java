@@ -17,9 +17,26 @@ import java.lang.reflect.Method;
  * @Description
  */
 public class BaseServlet extends HttpServlet {
+
+    /**
+     *所有servlet共用的 Session
+     */
     public HttpSession baseSession;
+
+    /**
+     *所有servlet共用的 当前登录的用户
+     */
     public User baseUser;
 
+
+    /**
+     *@Description TODO:反射调用子类的方法  路径映射到子类的方法：requestURI  method
+     *@author 余俊锋
+     *@date 2020/9/27 9:21
+     *@params req
+     * @param resp
+     *@return void
+     */
     @Override
     public void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         this.baseSession = req.getSession();

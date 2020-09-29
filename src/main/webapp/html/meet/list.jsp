@@ -49,8 +49,8 @@
               </c:choose>
           </td>
               <td>
-                  <fmt:parseDate var="abc" value="${meet.publishDate}" pattern="YYYY-MM-dd HH:mm:ss"></fmt:parseDate>
-                  <fmt:formatDate value="${abc}" pattern="YYYY年MM月dd分 HH时mm分ss秒"></fmt:formatDate>
+                  <fmt:parseDate var="abc" value="${meet.publishDate}" pattern="yyyy-MM-dd HH:mm:ss"></fmt:parseDate>
+                  <fmt:formatDate value="${abc}" pattern="yyyy年MM月dd分 HH时mm分ss秒"></fmt:formatDate>
               </td>
           <td>${meet.content}</td>
               <td>

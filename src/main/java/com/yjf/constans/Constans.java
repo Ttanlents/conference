@@ -10,4 +10,5 @@ public class Constans {
     public static final String COOKIE_LOGIN = "cookie_login";
     public static final String SESSION_CODE="session_code";
     public static final String SESSION_LOGOUT="session_logout";
+    public static final String SESSION_EMAIL="session_email";
 }

@@ -46,7 +46,16 @@
 </style>
 <body>
 <div id="top">
-    <img src="/user/getHeaderPic?pic=${session_login.pic}" id="detail-img"/>
+   <c:choose>
+       <c:when test="${session_login.wxOpenid!=null}">
+            <c:if test="${fn:contains(session_login.pic,img)}"><img src="/user/getHeaderPic?pic=${session_login.pic}" id="detail-img"/></c:if>
+            <c:if test="${!fn:contains(session_login.pic,img)}"><img src="${session_login.pic}" id="detail-img"/></c:if>
+       </c:when>
+       <c:when test="${session_login.pic!=null}">
+           <img src="/user/getHeaderPic?pic=${session_login.pic}" id="detail-img"/>
+       </c:when>
+       <c:otherwise></c:otherwise>
+   </c:choose>
     <c:if test="${session_login!=null}"> ${session_login.realName}</c:if>
     <c:if test="${session_login==null}">您还未登录，请先登录哦！</c:if>&nbsp;&nbsp;&nbsp; <a href="${path}/loginOut">退出登录</a>
    <%-- <form action="/user/updatePic" method="post" enctype="multipart/form-data">--%>
@@ -77,12 +86,17 @@
                 dataType: "json",
                 async: true,
                 success: function (data) {
+                    console.log(data)
                     if (data.code == '200') {
                         //成功
                         $("#detail-img").attr("src", "/user/getHeaderPic?pic=" + data.msg);
+                        alert("修改成功");
                     } else {
                         alert(data.msg);
                     }
+                },
+                error:function () {
+                    alert("修改失败，请选择合法的图片！")
                 }
             });
 

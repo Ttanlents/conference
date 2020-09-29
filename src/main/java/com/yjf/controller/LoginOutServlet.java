@@ -17,6 +17,17 @@ import java.util.logging.Logger;
  */
 @WebServlet("/loginOut")
 public class LoginOutServlet extends HttpServlet {
+
+
+
+    /**
+     *@Description TODO：退出登录
+     *@author 余俊锋
+     *@date 2020/9/27 9:19
+     *@params req
+     * @param resp
+     *@return void
+     */
     @Override
     public void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
@@ -26,7 +37,16 @@ public class LoginOutServlet extends HttpServlet {
         resp.sendRedirect("/index.jsp");
     }
 
-    public void clearCookies(HttpServletRequest request, HttpServletResponse response, String... cookieNames) {
+    /**
+     *@Description TODO:根据cookieName 删除cookie
+     *@author 余俊锋
+     *@date 2020/9/27 9:16
+     *@params request
+     * @param response
+     * @param cookieNames
+     *@return void
+     */
+    public void clearCookies(HttpServletRequest request, HttpServletResponse response, String  ...cookieNames) {
         Cookie[] cookies = request.getCookies();
         if (cookies == null)
             return;

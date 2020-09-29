@@ -18,7 +18,6 @@
        性别：<input type="radio" name="gender" value="1"  />男
        <input type="radio" name="gender" value="0" />女<br/><br/>
        年龄: <input type="text" name="age" /><br/><br/>
-       注册时间：<input type="datetime-local" name="registerTime" /><br/><br/>
        部门名称：<select name="deptId">
        <c:forEach var="dept" items="${deptList}">
          <option value="${dept.id}" <c:if test="${dept.id==user.deptId}">selected</c:if>>${dept.name}</option>

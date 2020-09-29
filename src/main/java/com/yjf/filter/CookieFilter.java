@@ -34,8 +34,11 @@ public class CookieFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
-        if (request.getRequestURI().endsWith("/loginOut")||request.getRequestURI().endsWith("/login")||
-                request.getRequestURI().endsWith("/getVerifyCode")){
+        String url=request.getRequestURI();
+        if (url.endsWith("/loginOut")||url.endsWith("/login")||
+                url.endsWith("/getVerifyCode")||url.endsWith("/forget.jsp")
+                ||url.endsWith("/sendEmailCode")||url.endsWith("/updatePassword")||url.contains("/static")
+                ||url.contains("/js")||url.contains("/weChat")||url.contains("registerUser")||url.contains("register")||url.contains("checkName")){
             filterChain.doFilter(servletRequest,servletResponse);
             return;
         }

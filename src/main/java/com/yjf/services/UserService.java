@@ -104,9 +104,20 @@ public class UserService {
     public int addUser(User user){
      return    userDao.add(user);
     }
+    public int registerUser(User user){
+        return    userDao.register(user);
+    }
 
     public int updatePic(String pic,int id){
       return   userDao.updateImgUrl(pic,id);
+    }
+
+    public void updateUserPasswordByUsername(String username,String password){
+       userDao.updatePasswordByUsername(username,password);
+    }
+
+    public User getUserByOpenWxId(String wx_openid){
+       return userDao.getUserByOpenWxId(wx_openid);
     }
 
 

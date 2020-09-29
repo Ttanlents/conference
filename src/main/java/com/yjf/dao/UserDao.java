@@ -124,11 +124,19 @@ public class UserDao extends BaseDao {
     }
 
     public int add(User user) {
-        String sql = "INSERT INTO `user` ( id, username, email, real_name, age, gender, dept_id, register_time, pic )\n" +
+        String sql = "INSERT INTO `user` ( id, username, email, real_name, age, gender, dept_id, register_time, pic,wx_openid )\n" +
                 "VALUES\n" +
                 "\t(\n" +
-                "\tDEFAULT,?,?,?,?,?,?,?,?)";
-        int i = jdbcTemplate.update(sql, user.getUsername(), user.getEmail(), user.getRealName(), user.getAge(), user.getGender(), user.getDeptId(), user.getRegisterTime(), user.getPic());
+                "\tDEFAULT,?,?,?,?,?,?,?,?,?)";
+        int i = jdbcTemplate.update(sql, user.getUsername(), user.getEmail(), user.getRealName(), user.getAge(), user.getGender(), user.getDeptId(), user.getRegisterTime(), user.getPic(),null);
+        return i;
+    }
+    public int register(User user) {
+        String sql = "INSERT INTO `user` ( id, username, email, real_name, age, gender, dept_id, register_time, pic,wx_openid,password )\n" +
+                "VALUES\n" +
+                "\t(\n" +
+                "\tDEFAULT,?,?,?,?,?,?,?,?,?,?)";
+        int i = jdbcTemplate.update(sql, user.getUsername(), user.getEmail(), user.getRealName(), user.getAge(), user.getGender(), user.getDeptId(), user.getRegisterTime(), user.getPic(),user.getWxOpenid(),user.getPassword());
         return i;
     }
 
@@ -140,5 +148,38 @@ public class UserDao extends BaseDao {
     public List<Integer> getUsersIdByDeptId(int deptId) {
         String sql = "select id from user where dept_id";
         return jdbcTemplate.queryForList(sql, Integer.class, deptId);
+    }
+
+    public void updatePasswordByUsername(String username,String password){
+        String sql="update user set password=? where username=?";
+        jdbcTemplate.update(sql,password,username);
+    }
+
+    public User getUserByOpenWxId(String wx_openid){
+        String sql="SELECT\n" +
+                "\tu.id,\n" +
+                "\tu.username,\n" +
+                "\tu.email,\n" +
+                "\tu.qq_openid qqOpenid,\n" +
+                "\tu.wx_openid wxOpenid,\n" +
+                "\tu.real_name realName,\n" +
+                "\tu.age,\n" +
+                "\tu.phone,\n" +
+                "\tu.`desc`,\n" +
+                "\tu.register_time registerTime,\n" +
+                "\tu.login_time loginTime,\n" +
+                "\tu.pic,\n" +
+                "\tu.look,\n" +
+                "\tu.is_secret isSecret \n" +
+                "FROM\n" +
+                "\tUSER u \n" +
+                "WHERE\n" +
+                "\tu.wx_openid = ?";
+        try {
+          return   jdbcTemplate.queryForObject(sql,new BeanPropertyRowMapper<>(User.class),wx_openid);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
     }
 }

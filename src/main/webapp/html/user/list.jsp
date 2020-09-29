@@ -28,6 +28,7 @@
         <input type="text" name="username" placeholder="请输入用户名"/>&nbsp;
         <input class="btn btn-success" type="submit" value="查询"/> &nbsp;<a href="${path}/user/addUser1" class="btn btn-success">添加</a>&nbsp;&nbsp;&nbsp;
     </form>
+
    <table class="table table-bordered">
        <tr>
            <th>序号</th>
@@ -44,15 +45,26 @@
       <c:forEach var="user" items="${userList}" varStatus="status">
           <tr>
           <td>${status.count+(page.pageCurrent-1)*page.pageSize}</td>
-          <td> <img src="/user/getHeaderPic?pic=${user.pic}" id="detail-img"></td>
+          <td>
+              <c:choose>
+                  <c:when test="${user.wxOpenid!=null}">
+                      <c:if test="${fn:contains(user.pic,img)}"><img src="/user/getHeaderPic?pic=${user.pic}" id="detail-img"/></c:if>
+                      <c:if test="${!fn:contains(user.pic,img)}"><img src="${user.pic}" id="detail-img"/></c:if>
+                  </c:when>
+                  <c:when test="${user.pic!=null}">
+                      <img src="/user/getHeaderPic?pic=${user.pic}" id="detail-img"/>
+                  </c:when>
+                  <c:otherwise></c:otherwise>
+              </c:choose>
+          </td>
           <td>${user.username}</td>
           <td>${user.email}</td>
           <td>${user.realName}</td>
           <td>${user.age}</td>
           <td>${user.gender}</td>
           <td>
-              <fmt:parseDate var="abc" value="${user.registerTime}" pattern="YYYY-MM-dd HH:mm:ss"></fmt:parseDate>
-              <fmt:formatDate value="${abc}" pattern="YYYY年MM月dd分 HH时mm分ss秒"></fmt:formatDate>
+              <fmt:parseDate var="abc" value="${user.registerTime}" pattern="yyyy-MM-dd HH:mm:ss"></fmt:parseDate>
+              <fmt:formatDate value="${abc}" pattern="yyyy年MM月dd日 HH时mm分ss秒"></fmt:formatDate>
           </td>
               <td>${user.deptName}</td>
               <td>
