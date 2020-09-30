@@ -31,7 +31,7 @@ public class EmailUtil {
         //第一步：设置发件人邮箱地址，第二步：开启smtp服务
         try {
             //设置发件人(服务器)
-            String from = "825362171@qq.com";
+            String from = "XXXXXXX@qq.com";
             //设置收件人
             String to = emailName;
             //设置邮件发送的服务器，这里为QQ邮件服务器
