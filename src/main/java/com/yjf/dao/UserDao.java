@@ -182,4 +182,31 @@ public class UserDao extends BaseDao {
         }
         return null;
     }
+    public User getUserByOpenQqId(String qq_openid){
+        String sql="SELECT\n" +
+                "\tu.id,\n" +
+                "\tu.username,\n" +
+                "\tu.email,\n" +
+                "\tu.qq_openid qqOpenid,\n" +
+                "\tu.wx_openid wxOpenid,\n" +
+                "\tu.real_name realName,\n" +
+                "\tu.age,\n" +
+                "\tu.phone,\n" +
+                "\tu.`desc`,\n" +
+                "\tu.register_time registerTime,\n" +
+                "\tu.login_time loginTime,\n" +
+                "\tu.pic,\n" +
+                "\tu.look,\n" +
+                "\tu.is_secret isSecret \n" +
+                "FROM\n" +
+                "\tUSER u \n" +
+                "WHERE\n" +
+                "\tu.qq_openid = ?";
+        try {
+            return   jdbcTemplate.queryForObject(sql,new BeanPropertyRowMapper<>(User.class),qq_openid);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

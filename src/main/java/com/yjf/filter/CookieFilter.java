@@ -21,7 +21,12 @@ import java.net.URLDecoder;
 @WebFilter("/*")
 public class CookieFilter implements Filter {
 
-/**
+    @Override
+    public void init(FilterConfig filterConfig) throws ServletException {
+
+    }
+
+    /**
  *@Description 如果检测到访问的用户未登录，判断是否有cookie,使用cookie登录
  *@author 余俊锋
  *@date 2020/9/23 13:34
@@ -38,7 +43,8 @@ public class CookieFilter implements Filter {
         if (url.endsWith("/loginOut")||url.endsWith("/login")||
                 url.endsWith("/getVerifyCode")||url.endsWith("/forget.jsp")
                 ||url.endsWith("/sendEmailCode")||url.endsWith("/updatePassword")||url.contains("/static")
-                ||url.contains("/js")||url.contains("/weChat")||url.contains("registerUser")||url.contains("register")||url.contains("checkName")){
+                ||url.contains("/js")||url.contains("/weChat")||url.contains("registerUser")||url.contains("register")||url.contains("checkName")
+                ||url.contains("QQ")){
             filterChain.doFilter(servletRequest,servletResponse);
             return;
         }
@@ -70,6 +76,11 @@ public class CookieFilter implements Filter {
         }
 
        filterChain.doFilter(servletRequest,servletResponse);
+
+    }
+
+    @Override
+    public void destroy() {
 
     }
 }

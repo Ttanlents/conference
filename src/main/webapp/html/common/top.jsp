@@ -48,8 +48,12 @@
 <div id="top">
    <c:choose>
        <c:when test="${session_login.wxOpenid!=null}">
-            <c:if test="${fn:contains(session_login.pic,img)}"><img src="/user/getHeaderPic?pic=${session_login.pic}" id="detail-img"/></c:if>
-            <c:if test="${!fn:contains(session_login.pic,img)}"><img src="${session_login.pic}" id="detail-img"/></c:if>
+            <c:if test="${fn:contains(session_login.pic,'img')}"><img src="/user/getHeaderPic?pic=${session_login.pic}" id="detail-img"/></c:if>
+            <c:if test="${!fn:contains(session_login.pic,'img')}"><img src="${session_login.pic}" id="detail-img"/></c:if>
+       </c:when>
+       <c:when test="${session_login.qqOpenid!=null}">
+           <c:if test="${fn:contains(session_login.pic,'img')}"><img src="/user/getHeaderPic?pic=${session_login.pic}" id="detail-img"/></c:if>
+           <c:if test="${!fn:contains(session_login.pic,'img')}"><img src="${session_login.pic}" id="detail-img"/></c:if>
        </c:when>
        <c:when test="${session_login.pic!=null}">
            <img src="/user/getHeaderPic?pic=${session_login.pic}" id="detail-img"/>

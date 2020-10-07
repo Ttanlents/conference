@@ -16,6 +16,11 @@ import java.io.IOException;
 @WebFilter("/*")
 public class LoginFilter implements Filter {
     @Override
+    public void init(FilterConfig filterConfig) throws ServletException {
+
+    }
+
+    @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
@@ -23,7 +28,8 @@ public class LoginFilter implements Filter {
         if (requestPath.endsWith("/getVerifyCode")||requestPath.endsWith("/forget.jsp")
                 ||requestPath.endsWith("/sendEmailCode")||requestPath.endsWith("/updatePassword")
                 ||requestPath.contains("/js")||requestPath.contains("/static")||requestPath.contains("weChat")
-                ||requestPath.contains("registerUser")||requestPath.contains("register")||requestPath.contains("checkName")){
+                ||requestPath.contains("registerUser")||requestPath.contains("register")||requestPath.contains("checkName")
+                ||requestPath.contains("QQ")){
             filterChain.doFilter(servletRequest,servletResponse);
             return;
         }
@@ -39,5 +45,10 @@ public class LoginFilter implements Filter {
             }
         }
         filterChain.doFilter(servletRequest,servletResponse);
+    }
+
+    @Override
+    public void destroy() {
+
     }
 }

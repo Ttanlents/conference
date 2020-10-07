@@ -21,7 +21,7 @@
         验证码：<input type="text" name="code" id="code"/><br/>
         记住我(七天免登陆)<input type="checkbox" value="1" name="remember"/>
         <input type="submit" value="登录"/><a href="/user/registerUser">注册</a><br/><a href="/html/user/forget.jsp">忘记密码</a>
-        <a href="/weChat/wxLogin">微信登录</a><br/>
+        <a href="/weChat/wxLogin">微信登录</a><br/>  <a href="/QQ/toQQLogin">QQ登录</a><br/>
     </form>
 </fieldset>
 </div>

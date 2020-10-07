@@ -95,11 +95,40 @@
       <version>1.4.7</version>
     </dependency>
 
+    <!--jdbcTemplates-->
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-jdbc</artifactId>
       <version>5.2.0.RELEASE</version>
     </dependency>
+
+    <!--qq登录-->
+    <dependency>
+      <groupId>net.gplatform</groupId>
+      <artifactId>Sdk4J</artifactId>
+      <version>2.0</version>
+    </dependency>
+     <!-- 导出Excel-->
+      <dependency>
+          <groupId>org.apache.poi</groupId>
+          <artifactId>poi</artifactId>
+          <version>3.17</version>
+      </dependency>
+    <!-- https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml -->
+    <dependency>
+      <groupId>org.apache.poi</groupId>
+      <artifactId>poi-ooxml</artifactId>
+      <version>3.17</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml-schemas -->
+    <dependency>
+      <groupId>org.apache.poi</groupId>
+      <artifactId>poi-ooxml-schemas</artifactId>
+      <version>3.17</version>
+    </dependency>
+
+
+
 
 
     <!-- Map映射model -->

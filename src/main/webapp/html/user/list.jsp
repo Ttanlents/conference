@@ -25,8 +25,10 @@
 </style>
 <div id="right">
     <form action="${path}/user/list" method="post" style="margin-left: 160px">
-        <input type="text" name="username" placeholder="请输入用户名"/>&nbsp;
+        <input type="text" name="username" placeholder="请输入用户名" value="<c:if test="${fn:length(username)>0}">${username}</c:if>"/>&nbsp;
+
         <input class="btn btn-success" type="submit" value="查询"/> &nbsp;<a href="${path}/user/addUser1" class="btn btn-success">添加</a>&nbsp;&nbsp;&nbsp;
+        <a href="${path}/export/getExcelFile?pageCurrent=${page.pageCurrent}&username=${username}" class="btn btn-success">导出</a>&nbsp;&nbsp;&nbsp;
     </form>
 
    <table class="table table-bordered">

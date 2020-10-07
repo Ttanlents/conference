@@ -120,5 +120,9 @@ public class UserService {
        return userDao.getUserByOpenWxId(wx_openid);
     }
 
+    public User getUserByOpenQqId(String qq_openid){
+        return userDao.getUserByOpenWxId(qq_openid);
+    }
+
 
 }

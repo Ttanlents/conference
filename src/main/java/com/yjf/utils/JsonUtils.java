@@ -3,11 +3,20 @@ package com.yjf.utils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.charset.Charset;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author 余俊锋
@@ -91,6 +100,24 @@ public class JsonUtils {
         OutputStream out = response.getOutputStream();
         out.write(jsonStr.getBytes("UTF-8"));
         out.flush();
+    }
+
+    public static Map getJsonObjectForQQ(String url) {
+        try {
+            // 创建一个http Client请求
+            CloseableHttpClient client = HttpClients.createDefault();
+            HttpGet httpGet = new HttpGet(url);
+            HttpResponse response = client.execute(httpGet);
+            // 获取响应数据(json)
+            HttpEntity entity = response.getEntity();
+            if (entity != null) {
+                String result = EntityUtils.toString(entity, Charset.forName("UTF8"));
+                return JsonUtils.jsonToPojo(result, HashMap.class);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
     
 }
